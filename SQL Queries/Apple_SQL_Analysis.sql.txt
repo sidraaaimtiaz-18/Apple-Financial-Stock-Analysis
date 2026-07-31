@@ -1,0 +1,140 @@
+/*==============================================================
+                  APPLE FINANCIAL & STOCK ANALYSIS
+================================================================
+Project      : Apple Financial & Stock Analysis
+Database     : Applestock_analysis
+Tools Used   : Google BigQuery (SQL)
+Author       : Sidra Imtiaz
+Description  : SQL analysis of Apple Inc.'s financial statements
+               and historical stock prices to evaluate financial
+               performance and stock market trends.
+================================================================*/
+
+
+/*==============================================================
+1. VIEW COMPLETE STOCK PRICE TABLE
+Purpose: Display all records from the stock price dataset.
+==============================================================*/
+
+SELECT *
+FROM `portfolio-projects-495215.Applestock_analysis.stock_price`;
+
+
+/*==============================================================
+2. MONTHLY STOCK PRICE SUMMARY
+Purpose: Calculate average, highest, and lowest stock prices
+         for each trading date.
+==============================================================*/
+
+SELECT
+    Date,
+    AVG(Price) AS Avg_Price,
+    MAX(High) AS Highest_Price,
+    MIN(Low) AS Lowest_Price
+FROM `portfolio-projects-495215.Applestock_analysis.stock_price`
+GROUP BY Date;
+
+
+/*==============================================================
+3. STOCK PRICE TREND
+Purpose: Analyze the average stock price trend over time.
+==============================================================*/
+
+SELECT
+    Date,
+    AVG(Price) AS Avg_Price
+FROM `portfolio-projects-495215.Applestock_analysis.stock_price`
+GROUP BY Date
+ORDER BY Date;
+
+
+/*==============================================================
+4. STOCK GROWTH ANALYSIS (WINDOW FUNCTION)
+Purpose: Compare each period's average stock price with the
+         previous period and calculate stock growth percentage.
+==============================================================*/
+
+SELECT
+    Date,
+    AVG(Price) AS Avg_Price,
+    LAG(AVG(Price)) OVER (ORDER BY Date) AS Previous_Price,
+    (
+        AVG(Price) -
+        LAG(AVG(Price)) OVER (ORDER BY Date)
+    )
+    /
+    LAG(AVG(Price)) OVER (ORDER BY Date) * 100
+    AS Stock_Growth_Percentage
+FROM `portfolio-projects-495215.Applestock_analysis.stock_price`
+GROUP BY Date;
+
+
+/*==============================================================
+5. EXTRACT YEAR FROM STOCK PRICE DATE
+Purpose: Create a Year field for annual analysis and joins.
+==============================================================*/
+
+SELECT
+    Date,
+    EXTRACT(YEAR FROM Date) AS Years,
+    Price,
+    Volume
+FROM `portfolio-projects-495215.Applestock_analysis.stock_price`;
+
+
+/*==============================================================
+6. YEARLY STOCK PERFORMANCE SUMMARY
+Purpose: Calculate yearly average, highest, and lowest stock
+         prices.
+==============================================================*/
+
+SELECT
+    EXTRACT(YEAR FROM Date) AS Years,
+    AVG(Price) AS Avg_Price,
+    MAX(High) AS Highest_Price,
+    MIN(Low) AS Lowest_Price
+FROM `portfolio-projects-495215.Applestock_analysis.stock_price`
+GROUP BY EXTRACT(YEAR FROM Date);
+
+
+/*==============================================================
+7. FINANCIAL PERFORMANCE VS STOCK PERFORMANCE
+Purpose: Join Apple financial statements with yearly average
+         stock prices for comparison.
+==============================================================*/
+
+SELECT
+    f.Years,
+    f.Revenue,
+    f.Net_Income,
+    s.AVG_StockPrice
+FROM `portfolio-projects-495215.Applestock_analysis.finances` AS f
+
+JOIN (
+
+    SELECT
+        EXTRACT(YEAR FROM Date) AS Years,
+        AVG(Price) AS AVG_StockPrice
+    FROM `portfolio-projects-495215.Applestock_analysis.stock_price`
+    GROUP BY EXTRACT(YEAR FROM Date)
+
+) AS s
+
+ON f.Years = s.Years;
+
+
+/*==============================================================
+8. STOCK PRICES ABOVE AVERAGE (SUBQUERY)
+Purpose: Identify trading periods where the stock price was
+         above the overall average stock price.
+==============================================================*/
+
+SELECT *
+FROM `portfolio-projects-495215.Applestock_analysis.stock_price`
+
+WHERE Price >
+
+(
+    SELECT AVG(Price)
+    FROM `portfolio-projects-495215.Applestock_analysis.stock_price`
+);
