@@ -1,6 +1,6 @@
 # 🍎 Apple Financial & Stock Analysis Dashboard
 
-![Dashboard Overview](Images/Dashboard%20Overview.PNG)
+![Financial Overview](Images/Financial%20Overview.PNG)
 
 ---
 
@@ -202,9 +202,10 @@ Apple-Financial-Stock-Analysis
 
 ---
 
-## Stock Performance Analysis
+## Stock Performance & Revenue Comparison 
 
-![Stock Analysis](Images/Stock%20Analysis.PNG)
+
+![Stock Performance & Revenue Comparison](./Images/Stock%20Analysis.PNG)
 
 ---
 
