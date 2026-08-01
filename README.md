@@ -205,7 +205,7 @@ Apple-Financial-Stock-Analysis
 ## Stock Performance & Revenue Comparison 
 
 
-![Stock Performance & Revenue Comparison](./Images/Stock%20Analysis.PNG)
+![Stock Performance & Revenue Comparison](Images/Stock%20Performance%20and%20Revenue%20Comparison.PNG)
 
 ---
 
