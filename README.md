@@ -128,7 +128,7 @@ Features:
 
 ---
 
-## 📌 Page 3 — Stock Performance Analysis
+## 📌 Page 3 — Stock Performance & Revenue Comparison
 
 Features:
 
@@ -174,10 +174,10 @@ Apple-Financial-Stock-Analysis
 │   └── Apple_Stock_Prices.csv
 │
 ├── Images
-│   ├── Dashboard Overview.png
 │   ├── Financial Overview.png
 │   ├── Financial Performance.png
-│   └── Stock Analysis.png
+│   └── Stock Performance & Revenue Comparison.png
+    
 │
 ├── SQL Queries
 │   └── Apple_SQL_Analysis.sql
@@ -208,6 +208,7 @@ Apple-Financial-Stock-Analysis
 ![Stock Performance & Revenue Comparison](./Images/Stock%20Analysis.PNG)
 
 ---
+
 
 # ▶️ How to Use
 
